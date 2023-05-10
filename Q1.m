@@ -1,4 +1,5 @@
 %% Constants
+load("ecg.mat")
 Fs  = 500;
 T = 1 / Fs;
 samples = length(ecg);
@@ -108,3 +109,9 @@ end
 
 %% Q4
 
+acf = xcorr(ecg3);
+[max_peaks, max_locs] = findpeaks(acf);
+[global_max, global_loc] = max(acf);
+local_max = max(max_peaks(max_locs > global_loc));
+local_loc = max_locs(max_peaks == local_max & max_locs > global_loc);
+heart_rate = f_smapling / (local_loc - global_loc) * 60;
