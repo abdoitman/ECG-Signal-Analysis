@@ -106,10 +106,20 @@ for i = 1:length(Cutoff_frequencies)
 end
 
 % Best cutoff frequency is at 40 Hz
+frequency_point = 40 * 4170 / 500;
+ecg3_freq_filtered = ecg3_freq;
+ecg3_freq_filtered([1:(samples/2) - ceil(frequency_point) (samples/2) + floor(frequency_point):end]) = 0;
+ecg3 = real(ifft(ifftshift(ecg3_freq_filtered)));
 
 %% Q4
 
 acf = xcorr(ecg3);
+Shift_vector = linspace(-samples, samples, samples*2-1);
+figure;
+plot(Shift_vector, acf)
+title("Auto correlation function for the signal")
+xlabel("Shift")
+ylabel("ACF")
 [max_peaks, max_locs] = findpeaks(acf);
 [global_max, global_loc] = max(acf);
 local_max = max(max_peaks(max_locs > global_loc));
@@ -118,3 +128,9 @@ heart_rate = Fs / (local_loc - global_loc)*60;
 
 %% Q5
 
+figure;
+[qrs_amp_raw_ecg, qrs_i_raw_ecg, delay_ecg] = pan_tompkin("original ECG signal", ecg, Fs, 1);
+figure;
+[qrs_amp_raw_ecg2, qrs_i_raw_ecg2, delay_ecg2] = pan_tompkin("ECG2", ecg2, Fs, 1);
+figure;
+[qrs_amp_raw_ecg3, qrs_i_raw_ecg3, delay_ecg3] = pan_tompkin("ECG3", ecg3, Fs, 1);
