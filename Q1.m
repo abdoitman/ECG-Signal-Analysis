@@ -114,4 +114,7 @@ acf = xcorr(ecg3);
 [global_max, global_loc] = max(acf);
 local_max = max(max_peaks(max_locs > global_loc));
 local_loc = max_locs(max_peaks == local_max & max_locs > global_loc);
-heart_rate = f_smapling / (local_loc - global_loc) * 60;
+heart_rate = Fs / (local_loc - global_loc)*60;
+
+%% Q5
+
