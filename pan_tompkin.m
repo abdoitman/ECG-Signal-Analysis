@@ -1,4 +1,4 @@
-function [qrs_amp_raw,qrs_i_raw,delay]=pan_tompkin(ecg,fs,gr)
+function [qrs_amp_raw,qrs_i_raw,delay]=pan_tompkin(ECGname, ecg,fs,gr)
 
 %% function [qrs_amp_raw,qrs_i_raw,delay]=pan_tompkin(ecg,fs)
 % Complete implementation of Pan-Tompkins algorithm
@@ -78,7 +78,7 @@ if fs == 200
  %% ======================= start figure ============================= %%
    if gr
     figure;
-    ax(1) = subplot(321);plot(ecg);axis tight;title('Raw signal');
+    ax(1) = subplot(321);plot(ecg);axis tight;title('Raw signal of ' + ECGname);
     ax(2)=subplot(322);plot(ecg_l);axis tight;title('Low pass filtered');
    end
 %% ==== High Pass filter H(z) = (-1+32z^(-16)+z^(-32))/(1+z^(-1)) ==== %%
@@ -107,7 +107,7 @@ else
  ecg_h = filtfilt(a,b,ecg);
  ecg_h = ecg_h/ max( abs(ecg_h));
  if gr
-  ax(1) = subplot(3,2,[1 2]);plot(ecg);axis tight;title('Raw Signal');
+  ax(1) = subplot(3,2,[1 2]);plot(ecg);axis tight;title('Raw Signal of ' + ECGname);
   ax(3)=subplot(323);plot(ecg_h);axis tight;title('Band Pass Filtered');
  end
 end
