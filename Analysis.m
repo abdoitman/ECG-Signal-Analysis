@@ -5,7 +5,7 @@ T = 1 / Fs;
 samples = length(ecg);
 samples_per_Hz = samples / Fs;
 EKG1 = 500;
-% ecg = ecg / EKG1;
+ecg = ecg / EKG1;
 
 %% Q1
 T_vector = linspace(0, samples * T, samples);
@@ -113,18 +113,9 @@ ecg3 = real(ifft(ifftshift(ecg3_freq_filtered)));
 
 %% Q4
 
-acf = xcorr(ecg3);
-Shift_vector = linspace(-samples, samples, samples*2-1);
-figure;
-plot(Shift_vector, acf)
-title("Auto correlation function for the signal")
-xlabel("Shift")
-ylabel("ACF")
-[max_peaks, max_locs] = findpeaks(acf);
-[global_max, global_loc] = max(acf);
-local_max = max(max_peaks(max_locs > global_loc));
-local_loc = max_locs(max_peaks == local_max & max_locs > global_loc);
-heart_rate = Fs / (local_loc - global_loc)*60;
+heart_rate_ecg = calculate_ACF("ECG", ecg);
+heart_rate_ecg2 = calculate_ACF("ECG2", ecg2);
+heart_rate_ecg3 = calculate_ACF("ECG3", ecg3);
 
 %% Q5
 
@@ -132,9 +123,4 @@ heart_rate = Fs / (local_loc - global_loc)*60;
 [QRS_duration_filtered, heart_rate_filtered] = pan_tompkin_algorithm("ECG2", ecg2, Fs, T_vector);
 [QRS_duration_cutofff, heart_rate_cutoff] = pan_tompkin_algorithm("ECG3", ecg3, Fs, T_vector);
 
-disp("QRS Duration = " + QRS_duration_raw)
-disp("Heart Rate from Pan Tompkins = " + heart_rate_raw)
 disp("Heart Rate from ACF = " + heart_rate)
-
-%% Q6
-
