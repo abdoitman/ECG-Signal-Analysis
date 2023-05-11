@@ -5,7 +5,7 @@ T = 1 / Fs;
 samples = length(ecg);
 samples_per_Hz = samples / Fs;
 EKG1 = 500;
-ecg = ecg / EKG1;
+% ecg = ecg / EKG1;
 
 %% Q1
 T_vector = linspace(0, samples * T, samples);
@@ -128,9 +128,13 @@ heart_rate = Fs / (local_loc - global_loc)*60;
 
 %% Q5
 
-figure;
-[qrs_amp_raw_ecg, qrs_i_raw_ecg, delay_ecg] = pan_tompkin("original ECG signal", ecg, Fs, 1);
-figure;
-[qrs_amp_raw_ecg2, qrs_i_raw_ecg2, delay_ecg2] = pan_tompkin("ECG2", ecg2, Fs, 1);
-figure;
-[qrs_amp_raw_ecg3, qrs_i_raw_ecg3, delay_ecg3] = pan_tompkin("ECG3", ecg3, Fs, 1);
+[QRS_duration_raw, heart_rate_raw] = pan_tompkin_algorithm("original ECG signal", ecg, Fs, T_vector);
+[QRS_duration_filtered, heart_rate_filtered] = pan_tompkin_algorithm("ECG2", ecg2, Fs, T_vector);
+[QRS_duration_cutofff, heart_rate_cutoff] = pan_tompkin_algorithm("ECG3", ecg3, Fs, T_vector);
+
+disp("QRS Duration = " + QRS_duration_raw)
+disp("Heart Rate from Pan Tompkins = " + heart_rate_raw)
+disp("Heart Rate from ACF = " + heart_rate)
+
+%% Q6
+
