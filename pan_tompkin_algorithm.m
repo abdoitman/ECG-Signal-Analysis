@@ -123,4 +123,7 @@ function [QRS_duration,heart_rate]=pan_tompkin_algorithm(ECGname, ecg,fs, T_vect
 
    QRS_duration = mean(z) * (1/Fs);
    heart_rate = count * (1/Fs) * (ecg_len); 
+
+   disp("QRS Duration = " + QRS_duration)
+    disp("Heart Rate from Pan Tompkins = " + heart_rate)
 end
