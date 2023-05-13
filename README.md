@@ -1,5 +1,5 @@
 # ECG Signal Analysis
-Used MATLAB to clean an ECG signal and extract useful information about it.
+Used MATLAB to clean an ECG signal and extract useful information from it.
 
 ## Main Points
   1. Removed unwanted low frequncy noise caused by the movement of the patient during the measurement by **applying a high pass filter**.
